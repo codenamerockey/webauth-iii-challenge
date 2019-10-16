@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
     jwt.verify(token, secrets.jwtSecret, (err, decodedToken) => {
       if (err) {
         // foul play
-        res.status(401).json({ message: 'Bad panda!' });
+        res.status(401).json({ message: 'better luck next time!' });
       } else {
         // token is verified and good
         req.user = {
