@@ -13,9 +13,14 @@ router.post('/register', (req, res) => {
   user.password = hash;
 
   Users.add(user)
-    .then(saved => {
-      console.log(saved);
-      res.status(201).json(saved);
+    .then(savedUser => {
+      //jwt should be generated
+      const token = generateToken(savedUser);
+      console.log(savedUser);
+      res.status(201).json({
+        user: savedUser,
+        token
+      });
     })
     .catch(error => {
       res.status(500).json({ message: 'cannot add the user', ...error });
@@ -50,7 +55,7 @@ function generateToken(user) {
   const payload = {
     username: user.username,
     subject: user.id,
-    role: user.role
+    department: user.department
   };
   const options = {
     expiresIn: '1h'
